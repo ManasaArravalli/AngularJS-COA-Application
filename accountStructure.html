@@ -1,0 +1,82 @@
+<!-- form fields -->
+<style>
+    .simple-form {
+        margin: 35px auto;
+    }
+</style>
+<div class="container" style="margin-top:20px;">
+    <a class="btn btn-success" href="default.html">Back</a>
+    <form novalidate class="simple-form">
+        <div class="form-group">
+            <label>
+                Account Number:
+            </label>
+            <input class="form-control" type="text" ng-model="user.accountNumber" />
+        </div>
+        <div class="form-group">
+            <label>
+                Account Description:
+            </label>
+            <input class="form-control" type="text" ng-model="user.accountDescription" />
+        </div>
+        <div class="form-group">
+            <label>
+                Balance:
+            </label>
+            <input type="number" class="form-control" ng-model="user.balance" />
+        </div>
+        <div class="form-group">
+            <label>
+                Account Structure:
+            </label>
+            <!--<select class="form-control" multiple="" ng-model="user.accountStructure">
+                <option ng-repeat="accStructure in parentAccountStructure">{{accStructure.accountDescription}}</option>
+            </select>-->
+            <select class="form-control" ng-init="ddlData=ddlDataElements[0]" data-ng-model="ddlData" ng-options="item.accountNumber for item in ddlDataElements track by item.id" ng-change="GetValue(ddlData.id)"></select>
+
+        </div>
+        <br />
+        <div class="form-group">
+            <label>
+                Account Types:
+            </label>
+
+          
+            <select class="form-control" multiple>
+                <option ng-repeat="accountType in accountTypes">{{accountType.accountDescription}}</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <input style="width:100%;height:auto;" class="btn btn-primary" type="submit" ng-click="addAccountStructure(user)" value="Submit" />
+        </div>
+    </form><br />
+    <!-- Add Account Type Button -->
+    <a role="button" type="button" href="#accountType" class="btn btn-success acctypebtn">Add Account Type</a> <br />
+    <!--Display the entered form fields in the tabular structure-->
+    <div>
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>Account Number</th>
+                    <th>Account Des</th>
+                    <th>Account balance</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody ui:sortable ng:model="accountStructurList">
+                <tr ng-repeat="node in ddlDataElements">
+                    <td>{{node.accountNumber}}</td>
+                    <td>{{node.accountDescription}}</td>
+                    <td>{{node.balance}}</td>
+                    <td><a ng-click="deleteAccountStructure(node)">X </a></td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td></td>
+                    <td>{{total}}</td>
+                </tr>
+            
+            </tbody>
+        </table>
+    </div>
+</div>

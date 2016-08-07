@@ -1,0 +1,74 @@
+<!-- input form fields for account type -->
+<div class="container" style="margin-top:20px;">
+    <a class="btn btn-success" href="default.html">Back</a>
+    <form novalidate class="simple-form" style="margin:35px auto;">
+        
+        <div class="form-group">
+            <label>
+                Account Number:
+            </label>
+            <input class="form-control" type="text" ng-model="account.accountNumber" />
+
+        </div>
+        <div class="form-group">
+            <label>
+                Account Description:
+            </label>
+            <input class="form-control" type="text" ng-model="account.accountDescription" />
+        </div>
+        <div class="form-group">
+            <label>
+                Account Balance:
+            </label>
+            <input class="form-control" type="number" ng-model="account.balance" />
+        </div>
+        <div class="form-group">
+            <label>
+                Account Structure:
+            </label>
+            <!--<select class="form-control" ng-model="account.accountStructure">
+                <option ng-repeat="accStructure in parentAccountStructure">{{accStructure.accountDescription}}</option>
+            </select>-->
+            <select class="form-control" ng-init="ddlData=ddlDataElements[0]" data-ng-model="ddlData" ng-options="item.accountNumber for item in ddlDataElements track by item.id" ng-change="GetValue(ddlData.id)"></select>
+
+
+        </div>
+        <!--<div class="form-group">
+            <label>
+                Account Structure:
+            </label>
+            <input class="form-control" type="number" ng-model="account.balance" />
+        </div>-->
+        <div class="form-group">
+            <input style="width:100%;height:auto;" class="btn btn-primary" type="submit" ng-click="addAccountType(account)" value="Submit" />
+            </div>
+
+</form>
+    <!--Display the entered fields in the tabular format-->
+    <div>
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>Account Number</th>
+                    <th>Account Des</th>
+                    <th>Account balance</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody ui:sortable ng:model="accountTypeList">
+                <tr ng-repeat="acc in accountTypeList track by $index">
+                    <td>{{acc.accountNumber}}</td>
+                    <td>{{acc.accountDescription}}</td>
+                    <td>{{acc.balance}}</td>
+                    <td><a ng-click="deleteAccountType(acc)">X </a></td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td></td>
+                    <td>{{getTotal()}}</td>
+                    <td></td>
+                    </tr>
+            </tbody>
+        </table>
+    </div>
+</div>

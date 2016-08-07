@@ -1,0 +1,109 @@
+<!-- Nested node template -->
+<script type="text/ng-template" id="nodes_renderer.html">
+    <div ui-tree-handle class="tree-node tree-node-content">
+        <a class="btn btn-success btn-xs" style="float:left;" context-menu="otherMenuOptions" ng-if="node.nodes && node.nodes.length > 0" data-nodrag ng-click="toggle(this)">
+            <span class="glyphicon"
+                  ng-class="{
+          'glyphicon-chevron-right': collapsed,
+          'glyphicon-chevron-down': !collapsed
+        }"></span>
+        </a>
+        <a style="display:block;" ng-click="clickChk()" context-menu="otherMenuOptions">{{node.accountNumber}}</a>
+
+    </div>
+    <ol ui-tree-nodes="" ng-model="node.nodes" ng-class="{hidden: collapsed}">
+        <li ng-repeat="node in node.nodes" ui-tree-node ng-include="'nodes_renderer.html'">
+        </li>
+    </ol>
+</script>
+<div class="row">
+    <div class="col-sm-4" style="background: #E6E6E6;margin-left: -98px;height: 800px;">
+        <div ui-tree id="tree-root">
+            <ol ui-tree-nodes ng-model="data">
+                <li ng-repeat="node in data" ui-tree-node ng-include="'nodes_renderer.html'"></li>
+            </ol>
+        </div>
+    </div>
+    <div class="col-sm-8" style="padding-top:15px;">
+        <a class="btn btn-success" style="margin-left:25px;" data-ng-click="AccountSummary()"><span style="margin-right:10px;" class="glyphicon glyphicon-plus"></span>Account Summary</a>
+        <a class="btn btn-success" href="index.html#/accountType" data-ng-click="AccountType()"><span style="margin-right:10px;" class="glyphicon glyphicon-plus"></span>Account Type</a>
+        <br />
+        <div id="mainwrapper">
+            <div class="col-sm-3 box" style="margin:10px;text-align:center;" ng-repeat="node in data">
+                <img src="../images/1470504952_folder.png" />
+                <span class="caption full-caption">
+                    <p><a data-ng-click="toggleModal1(node)">View Summary</a> </p>
+                    <p><a data-ng-click="getChild(node)">View Childs</a> </p>
+                </span>
+                <h5>{{node.accountNumber}}</h5>
+            </div>
+
+        </div>
+        <br />
+        <div id="mainwrapper">
+            <h4>Sub folders of {{subnodeid}}</h4>
+            <div class="col-sm-3 box" style="margin:10px;text-align:center;" ng-repeat="node in subnode">
+                <img src="../images/1470504952_folder.png" />
+                <span class="caption full-caption">
+                    <p><a data-ng-click="toggleModal1(node)">View Summary</a> </p>
+                    <p><a data-ng-click="getChild(node)">View Childs</a> </p>
+                </span>
+                <h5>{{node.accountNumber}}</h5>
+            </div>
+            <span style="margin-left:10px;float:left;" ng-show="!subnode.length">No sub-folder found</span>
+        </div>
+
+    </div>
+</div>
+<!--<div class="info">
+    {{info}}
+</div>
+<pre class="code">{{ data | json }}</pre>-->
+<modal-dialog show='modalShown' width='400px'>
+    <div class="form-group">
+        <label>Select AccountSummary</label>
+        <select class="form-control" ng-init="ddlData=ddlDataElements[0]" data-ng-model="ddlData" ng-options="item.accountNumber for item in ddlDataElements track by item.id" ng-change="GetValue(ddlData.id)"></select>
+
+    </div>
+    <div class="form-group">
+        <input type="button" class="btn btn-primary" data-ng-click="clickNext()" value="Next" />
+        <!--<input data-ng-click="click()" type="button" class="btn btn-default" value="No, i want to create new account summary" />-->
+    </div>
+</modal-dialog>
+
+
+<modal-dialog show='modalShown1' width='400px' height='60%'>
+    <div>
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th colspan="2">Account Summary</th>
+
+                </tr>
+            </thead>
+            <tbody ui:sortable ng:model="accountStructurList">
+                <tr>
+                    <td>Account Number </td>
+                    <td>{{node.accountNumber}}</td>
+                </tr>
+                <tr>
+                    <td>Account Description</td>
+                    <td>{{node.accountDescription}}</td>
+                </tr>
+                <tr>
+                    <td>Account Balance</td>
+                    <td>{{node.balance}}</td>
+                </tr>
+                <tr style="background:gray;">
+                    <td><b>Grand Total</b></td>
+                    <td><b>{{total}}</b> </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</modal-dialog>
+
+
+
+
+
